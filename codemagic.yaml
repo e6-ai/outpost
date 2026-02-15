@@ -1,18 +1,46 @@
 workflows:
+  ios-build:
+    name: iOS Build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    
+    environment:
+      xcode: 15.4
+    
+    scripts:
+      - name: Install XcodeGen
+        script: brew install xcodegen
+      
+      - name: Generate Xcode project
+        script: xcodegen generate
+      
+      - name: Build for Simulator
+        script: |
+          xcodebuild build \
+            -project ColivingFinder.xcodeproj \
+            -scheme ColivingFinder \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+    
+    artifacts:
+      - /tmp/xcodebuild_logs/*.log
+
   ios-release:
     name: iOS Release
     max_build_duration: 60
     instance_type: mac_mini_m2
     
+    integrations:
+      app_store_connect: codemagic
+    
     environment:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ai.e6.colivingfinder
-      vars:
-        XCODE_WORKSPACE: "ColivingFinder.xcodeproj"
-        XCODE_SCHEME: "ColivingFinder"
-        APP_STORE_CONNECT_ISSUER_ID: "6542e2a9-fff8-4124-9083-2186cad6de0b"
-        APP_STORE_CONNECT_KEY_IDENTIFIER: "3529W4RQ55"
       xcode: 15.4
     
     scripts:
@@ -37,7 +65,7 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-
+    
     publishing:
       app_store_connect:
         auth: integration
