@@ -40,7 +40,7 @@ workflows:
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: ai.e6.colivingfinder
+        bundle_identifier: ai.e6.outpost
       xcode: latest
     
     scripts:
