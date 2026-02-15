@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m2
     
     environment:
-      xcode: 15.4
+      xcode: latest
     
     scripts:
       - name: Install XcodeGen
@@ -41,7 +41,7 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ai.e6.colivingfinder
-      xcode: 15.4
+      xcode: latest
     
     scripts:
       - name: Install XcodeGen
