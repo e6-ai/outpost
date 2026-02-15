@@ -17,8 +17,8 @@ workflows:
       - name: Build for Simulator
         script: |
           xcodebuild build \
-            -project ColivingFinder.xcodeproj \
-            -scheme ColivingFinder \
+            -project Outpost.xcodeproj \
+            -scheme Outpost \
             -sdk iphonesimulator \
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
@@ -53,8 +53,8 @@ workflows:
       - name: Build
         script: |
           xcodebuild build \
-            -project ColivingFinder.xcodeproj \
-            -scheme ColivingFinder \
+            -project Outpost.xcodeproj \
+            -scheme Outpost \
             -sdk iphoneos \
             -configuration Release \
             -destination 'generic/platform=iOS' \

@@ -1,4 +1,4 @@
-name: ColivingFinder
+name: Outpost
 options:
   bundleIdPrefix: ai.e6
   deploymentTarget:
@@ -14,7 +14,7 @@ settings:
     DEVELOPMENT_TEAM: ""
 
 targets:
-  ColivingFinder:
+  Outpost:
     type: application
     platform: iOS
     sources:

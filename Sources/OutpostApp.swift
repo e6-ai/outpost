@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct ColivingFinderApp: App {
+struct OutpostApp: App {
     @StateObject private var dataStore = ColivingDataStore()
     
     var body: some Scene {

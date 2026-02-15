@@ -65,7 +65,7 @@ struct ExploreView: View {
                 }
                 .padding(.vertical)
             }
-            .navigationTitle("CoLiving Finder")
+            .navigationTitle("Outpost")
             .sheet(isPresented: $showFilters) {
                 FilterView()
             }

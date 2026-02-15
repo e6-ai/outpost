@@ -1,4 +1,4 @@
-# CoLiving Finder
+# Outpost
 
 Find co-living spaces worldwide for digital nomads & remote workers.
 
@@ -33,7 +33,7 @@ Data stored in `data/colivings.json`.
 ```bash
 brew install xcodegen
 xcodegen generate
-open ColivingFinder.xcodeproj
+open Outpost.xcodeproj
 ```
 
 ## Bundle ID
