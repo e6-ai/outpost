@@ -1,72 +1,38 @@
 workflows:
-  ios-build:
-    name: iOS Build
+  outpost-ios:
+    name: Outpost iOS
     max_build_duration: 60
     instance_type: mac_mini_m2
-    
-    environment:
-      xcode: latest
-    
-    scripts:
-      - name: Install XcodeGen
-        script: brew install xcodegen
-      
-      - name: Generate Xcode project
-        script: xcodegen generate
-      
-      - name: Build for Simulator
-        script: |
-          xcodebuild build \
-            -project Outpost.xcodeproj \
-            -scheme Outpost \
-            -sdk iphonesimulator \
-            -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
-    
-    artifacts:
-      - /tmp/xcodebuild_logs/*.log
-
-  ios-release:
-    name: iOS Release
-    max_build_duration: 60
-    instance_type: mac_mini_m2
-    
     integrations:
-      app_store_connect: codemagic
-    
+      app_store_connect: Kai Builds
     environment:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ai.e6.outpost
+      vars:
+        BUNDLE_ID: ai.e6.outpost
       xcode: latest
-    
+      cocoapods: default
     scripts:
       - name: Install XcodeGen
         script: brew install xcodegen
-      
       - name: Generate Xcode project
         script: xcodegen generate
-      
-      - name: Build
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build iOS app
         script: |
-          xcodebuild build \
-            -project Outpost.xcodeproj \
-            -scheme Outpost \
-            -sdk iphoneos \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
-    
+          xcode-project build-ipa \
+            --project "Outpost.xcodeproj" \
+            --scheme "Outpost" \
+            --archive-flags="-destination 'generic/platform=iOS'"
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-    
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
     publishing:
       app_store_connect:
         auth: integration
+        api_key: Kai Builds
         submit_to_testflight: true
+        submit_to_app_store: false
